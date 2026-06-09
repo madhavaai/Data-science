@@ -15,6 +15,7 @@ This project explores a dataset of 700 real estate properties in Mexico, examini
 ### Data Source
 - **File**: `mexico-real-estate-1.csv`
 - **Total Records**: 700 properties
+- **Clean Records**: 583 (after removing missing geographic data)
 - **Format**: CSV
 
 ### Columns
@@ -30,15 +31,15 @@ This project explores a dataset of 700 real estate properties in Mexico, examini
 
 ### Data Quality Notes
 
-- **Missing Values**: Some properties have missing latitude/longitude coordinates (NaN values)
+- **Missing Values**: 117 properties have missing latitude/longitude coordinates (NaN values)
   - Example: Properties in Veracruz de Ignacio de la Llave and Morelos have missing coordinates
-  - Missing geographic coordinates may require alternative geocoding approaches
+  - Data cleaning removes these rows for geographic analysis
   
-- **Price Format**: Prices are stored as formatted strings (e.g., "$67,965.56") and may need conversion to numeric format for analysis
+- **Price Format**: Prices are stored as formatted strings (e.g., "$67,965.56") and require conversion to numeric format for analysis
 
 ## Files Included
 
-- `Untitled14.ipynb` - Jupyter notebook with initial data exploration and analysis
+- `DS2P1L1.ipynb` - Jupyter notebook with data exploration and analysis
 - `mexico-real-estate-1.csv` - Main dataset file
 - `README.md` - This file
 
@@ -46,8 +47,8 @@ This project explores a dataset of 700 real estate properties in Mexico, examini
 
 ### Prerequisites
 
-```python
-import pandas as pd
+```bash
+pip install pandas jupyter
 ```
 
 ### Basic Usage
@@ -56,7 +57,7 @@ import pandas as pd
 import pandas as pd
 
 # Load the dataset
-path = "/content/mexico-real-estate-1.csv"
+path = "mexico-real-estate-1.csv"
 df = pd.read_csv(path)
 
 # View first 5 rows
@@ -65,8 +66,11 @@ df.head()
 # View dataset info
 df.info()
 
-# Basic statistics
-df.describe()
+# Check for missing values
+df.isnull().sum()
+
+# Clean data - remove rows with missing coordinates
+df_clean = df.dropna()
 ```
 
 ## Key Insights
@@ -79,6 +83,8 @@ df.describe()
   - Guerrero
   - Yucatán
   - Querétaro
+  - Puebla
+  - Distrito Federal
   - And others
 
 ### Price Range
@@ -86,8 +92,8 @@ df.describe()
 - Average property area: ~150-200 square meters
 
 ### Geographic Coverage
-- Properties have coordinates for mapping and spatial analysis
-- Some regions have incomplete coordinate data requiring data cleaning
+- 583 properties have complete coordinate data for mapping and spatial analysis
+- 117 properties require additional geocoding or data imputation
 
 ## Recommended Analysis Tasks
 
@@ -117,22 +123,35 @@ df.describe()
 
 - **Python 3.x**
 - **Pandas** - Data manipulation and analysis
-- **NumPy** - Numerical computing (optional)
-- **Matplotlib/Seaborn** - Data visualization (optional)
-- **Folium/Plotly** - Geographic visualization (optional)
+- **NumPy** - Numerical computing
+- **Matplotlib/Seaborn** - Data visualization
+- **Folium/Plotly** - Geographic visualization
 
 ## Environment
 
 This project was developed in Google Colab with the following setup:
 - **Kernel**: Python 3
-- **Runtime**: Colab (or local Jupyter)
+- **Runtime**: Colab or local Jupyter
+
+## Acknowledgments
+
+This project is part of the coursework from **[World Quant University](https://www.wqu.edu/)**, a leading online educational institution providing accessible, high-quality education in:
+
+- **Data Science** - Statistical analysis, machine learning, and data-driven decision making
+- **Machine Learning** - Advanced algorithms and predictive modeling
+- **Quantitative Finance** - Financial mathematics and risk analysis
+- **Financial Engineering** - Derivatives, portfolio management, and trading strategies
+
+World Quant University is committed to democratizing access to world-class quantitative education. Their comprehensive curriculum combines theoretical foundations with practical, real-world applications.
+
+**Learn more at**: https://www.wqu.edu/
 
 ## Next Steps
 
 1. Run data cleaning operations on the dataset
 2. Perform exploratory data analysis
 3. Build visualizations for key insights
-4. Create predictive models for price estimation (if desired)
+4. Create predictive models for price estimation
 5. Generate summary report with findings
 
 ## License
